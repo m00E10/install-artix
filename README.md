@@ -1,7 +1,7 @@
 # install-artix
 # install-artix
 This installs artix from a base runit ISO in non-UEFI mode with BTRFS, full
-LUKS encryption, hardened kernel, and sway.
+LUKS encryption, hardened kernel, sway, and pipewire.
 
 Not completely automated. Manual work needs to be done when jumping from
 pre-chroot to post-chroot.
@@ -20,8 +20,9 @@ After booting into the live base artix environment
 
 TODO:
 Make base hardening script
-   setup of firewall
-   kernel hardening
-   auto start VPN
-Include the making of swap space
+ setup of firewall
+ kernel hardening
+ VPN setup
+Include the option to make swap space
+Replace GRUB with Syslinux https://forum.artixlinux.org/index.php/topic,3033.0.html
 Make a version thats just one big script so install is easy as curl https://github.com/m00E10/install-artix/1.sh | bash
