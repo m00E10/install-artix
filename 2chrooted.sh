@@ -1,5 +1,7 @@
 #!/bin/bash
 
+pacman -S vim
+
 function copy_dot_files {
   mv .tmux.conf /etc/skel
   mv .vimrc /etc/skel
