@@ -1,4 +1,4 @@
-#!/bin/bash -x
+#!/bin/bash
 
 function connectivity_check {
   if [ "$INIT" == "1" ]; then
