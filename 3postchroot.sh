@@ -32,13 +32,13 @@ function create_keyfile {
 
 function repo_setup {
   echo "[universe]" >> /etc/pacman.conf
-  echo "Server = https://universe.artixlinux.org/$arch" >> /etc/pacman.conf
-  echo "Server = https://mirror1.artixlinux.org/universe/$arch" >> /etc/pacman.conf
-  echo "Server = https://mirror.pascalpuffke.de/artix-universe/$arch" >> /etc/pacman.conf
-  echo "Server = https://artixlinux.qontinuum.space:4443/universe/os/$arch" >> /etc/pacman.conf
-  echo "Server = https://mirror.alphvino.com/artix-universe/$arch" >> /etc/pacman.conf
+  echo "Server = https://universe.artixlinux.org/\$arch" >> /etc/pacman.conf
+  echo "Server = https://mirror1.artixlinux.org/universe/\$arch" >> /etc/pacman.conf
+  echo "Server = https://mirror.pascalpuffke.de/artix-universe/\$arch" >> /etc/pacman.conf
+  echo "Server = https://artixlinux.qontinuum.space:4443/universe/os/\$arch" >> /etc/pacman.conf
+  echo "Server = https://mirror.alphvino.com/artix-universe/\$arch" >> /etc/pacman.conf
   echo "[omniverse]" >> /etc/pacman.conf
-  echo "Server = http://omniverse.artixlinux.org/$arch" >> /etc/pacman.conf 
+  echo "Server = http://omniverse.artixlinux.org/\$arch" >> /etc/pacman.conf 
   echo "[lib32]" >> /etc/pacman.conf
   echo "Include = /etc/pacman.d/mirrorlist" >> /etc/pacman.conf
   pacman -Sy
