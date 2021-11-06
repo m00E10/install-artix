@@ -78,8 +78,7 @@ function btrfs_setup {
 }
 
 function basestrap_setup {
-  base_packages="base base-devel linux-hardened linux-hardened-headers usbctl linux-firmware wget vim btrfs-progs grub mlocate dosfstools cryptsetup doas networkmanager network-manager-applet networkmanager-$init_system elogind-$init_system"
- 
+
 	while [[ "$CPU" != "1" && "$CPU" != "2" ]]; do 
 	  echo -e "\033[0;33mWhat brand is your CPU?\033[0m"
 	  echo -e "\033[0;31m1. AMD\033[0m"
@@ -108,7 +107,8 @@ function basestrap_setup {
 	  fi 
 	done
 	echo "INIT=$INIT" >> vars
-    
+	
+        base_packages="base base-devel linux-hardened linux-hardened-headers usbctl linux-firmware wget vim btrfs-progs grub mlocate dosfstools cryptsetup doas networkmanager network-manager-applet networkmanager-$init_system elogind-$init_system"
 	basestrap /mnt $base_packages $cpu_package
 
 	fstabgen -U /mnt >> /mnt/etc/fstab
