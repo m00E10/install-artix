@@ -25,7 +25,7 @@ function disk_setup {
 
   echo -e "\033[0;33mDo you want to setup LUKS encryption?\033[0m"
   echo -e "\033[0;33m1. Yes\033[0m"
-  echo -e "\033[0;33m2. No (Placeholder, unencrypted setup is currently not supported\033[0m"
+  echo -e "\033[0;33m2. No (Placeholder, unencrypted setup is currently not supported)\033[0m"
   
   while [ "$luks_answer" != "1" ]; do
     read luks_answer
@@ -94,7 +94,7 @@ function basestrap_setup {
 	echo "CPU=$CPU" >> vars
 
 	while [[ "$INIT" != "1" && "$INIT" != "2" && "$INIT" != "3" ]]; do
-	  echo -e "\033[0;33mWhat is your init System?\033[0m"
+	  echo -e "\033[0;33mWhat init system do you want to use?\033[0m"
 	  echo -e "\033[0;34m1. Runit\033[0m"
 	  echo -e "\033[0;37m2. S6\033[0m"
 	  echo -e "\033[0;31m3. OpenRC\033[0m"
