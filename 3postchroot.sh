@@ -68,11 +68,7 @@ function repo_setup {
 
 function install_packages {
   # ARTIXV3, install yay, pipewire, setup smithay, wayland-rs, yofi, fireplace with trizen (test and document in VM),
-  pacman -S git base-devel man-pages man-db neofetch tmux tmuxp htop sway \
-  xorg-xwayland glfw-wayland python-glfw wayland-docs glu i3status-rust \
-  pipewire pipewire-pulse pavucontrol cmus wireguard-tools openntpd \
-  wl-clipboard grim slurp swappy noto-fonts noto-fonts-emoji noto-fonts-extra \
-  acpi unzip tor tree yay torsocks cronie flatpak bubblewrap-suid
+  pacman -S git base-devel man-pages man-db neofetch tmux tmuxp htop sway xorg-xwayland glfw-wayland python-glfw wayland-docs glu i3status-rust pipewire pipewire-pulse pavucontrol cmus wireguard-tools openntpd wl-clipboard grim slurp swappy noto-fonts noto-fonts-emoji noto-fonts-extra acpi unzip tor tree yay torsocks cronie flatpak bubblewrap-suid
   # Whats worse, to have bubble wrap be a possible PE by using the SUID variant,
   # or allowing any user to make namespaces? Current research leads me to
   # believe suid bubblewrap is better, but I am not 100% sure
