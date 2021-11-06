@@ -136,8 +136,8 @@ function make_user {
   useradd -m $USER2
   passwd $USER2
   usermod -a -G video $USER2
-  echo "permit nopass $USER2 cmd virsh args net-start default"
-  echo "permit nopass $USER2 cmd poweroff args"
+  echo "permit nopass $USER2 cmd virsh args net-start default" >> /etc/doas.conf
+  echo "permit nopass $USER2 cmd poweroff args" >> /etc/doas.conf
 }
 
 function vm_setup {
