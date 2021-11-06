@@ -18,6 +18,7 @@ After booting into the live base artix environment
 6. bash 1prechroot.sh
 
 
+```
 TODO:
 Make base hardening script
  setup of firewall
@@ -26,3 +27,4 @@ Make base hardening script
 Include the option to make swap space
 Replace GRUB with Syslinux https://forum.artixlinux.org/index.php/topic,3033.0.html
 Make a version thats just one big script so install is easy as curl https://github.com/m00E10/install-artix/1.sh | bash
+```
