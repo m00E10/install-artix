@@ -81,7 +81,7 @@ function basestrap_setup {
   base_packages=base base-devel linux-hardened linux-hardened-headers usbctl linux-firmware wget vim btrfs-progs grub mlocate dosfstools cryptsetup doas networkmanager network-manager-applet networkmanager-$init_system elogind-$init_system 
  
 	while [[ "$CPU" != "1" && "$CPU" != "2" ]]; do 
-		echo "What brand is your CPU?"
+	  echo -e "\033[0;33mWhat brand is your CPU?\033[0m"
 	  echo -e "\033[0;31m1. AMD\033[0m"
 	  echo -e "\033[0;34m2. Intel\033[0m"
 		read CPU
