@@ -176,15 +176,6 @@ function vm_setup {
       rc-service virtlogd start
     fi
   
-    userans=t
-    while [ "$userans" != y ]; do
-      echo -e "\033[0;33mExecuting \"crontab -e\" add \"@reboot virsh net-start default\"\033[0m"
-      sleep 5
-      crontab -e
-      sleep 2
-      echo -e "\033[0;33mWas crontab edited successfully? y/n\033[0m"
-      read userans
-    done
     sleep 3
     usermod -a -G libvirt $USER2
   fi
