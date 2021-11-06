@@ -124,6 +124,7 @@ function setup_next {
   mv sysfiles/* /mnt
   rm -rf sysfiles
   rm *.md
+  rm -rf .git
   mv .* /mnt
   mv vars /mnt
   echo -e "\033[0;33mNow run the following commands manually\033[0m"
