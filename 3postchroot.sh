@@ -41,6 +41,7 @@ function repo_setup {
   echo "Server = http://omniverse.artixlinux.org/$arch" >> /etc/pacman.conf 
   echo "[lib32]" >> /etc/pacman.conf
   echo "Include = /etc/pacman.d/mirrorlist" >> /etc/pacman.conf
+  pacman -Sy
 
   pacman -S artix-archlinux-support archlinux-mirrorlist
   sleep 2
@@ -77,7 +78,7 @@ function install_packages {
   # believe suid bubblewrap is better, but I am not 100% sure
 
   cp -r /usr/share/pipewire/ /etc/
-	echo -e "\033[0;33mUncomment the following two lines\033[0m"
+  echo -e "\033[0;33mUncomment the following two lines\033[0m"
   echo -e "\033[0;33m{ path = \"/usr/bin/pipewire-media-session\"  args = \"\" }\033[0m"
   echo -e "\033[0;33m{ path = \"/usr/bin/pipewire\" args = \"-c pipewire-pulse.conf\" }\033[0m"
   echo -e "\033[0;33mBoth are near the end of the file\033[0m"
