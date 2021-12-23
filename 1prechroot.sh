@@ -32,7 +32,7 @@ function disk_setup {
   	if [ "$luks_answer" == "1" ]; then
   		encryption_setup
   	elif [ "$luks_answer" == "2" ]; then
-      echo -e "\033[0;33mIm not supported yet!\033[0m"
+		regular_setup
     fi
   done
 }
@@ -50,17 +50,35 @@ function encryption_setup {
     if [ "$userans" == "1" ]; then
       parted -s /dev/$DRIVE mkpart primary 2048s 50%
       cryptsetup --verbose --type luks1 --cipher serpent-xts-plain64 --key-size 512 --hash whirlpool --iter-time 10000 --use-random --verify-passphrase luksFormat /dev/$DRIVE\1
+      cryptsetup open /dev/$DRIVE\1 artix
       # Does grub support luks2 yet?
     elif [ "$userans" == "2" ]; then
       parted -s /dev/$DRIVE mkpart primary 2048s 100%
       cryptsetup --verbose --type luks1 --cipher serpent-xts-plain64 --key-size 512 --hash whirlpool --iter-time 10000 --use-random --verify-passphrase luksFormat /dev/$DRIVE\1
+      cryptsetup open /dev/$DRIVE\1 artix
+    fi
+  done
+}
+
+function regular_setup {
+  parted -s /dev/$DRIVE mklabel msdos
+  echo -e "\033[0;31mBe aware: Any currently installed Operating Systems will DIE after this step\033[0m"
+  echo -e "\033[0;33mWill you be dual booting?\033[0m"
+  echo -e "\033[0;33m1. Yes (Uses first 50% of drive)\033[0m"
+  echo -e "\033[0;33m2. No  (Uses 100% of drive)\033[0m"
+
+  while [[ "$userans" != "1" && "$userans" != "2" ]]; do
+    read userans
+    if [ "$userans" == "1" ]; then
+      parted -s /dev/$DRIVE mkpart primary 2048s 50%
+    elif [ "$userans" == "2" ]; then
+      parted -s /dev/$DRIVE mkpart primary 2048s 100%
     fi
   done
 }
 
 function btrfs_setup {
   # Create filesystems and subvolumes
-  cryptsetup open /dev/$DRIVE\1 artix
   mkfs -t btrfs --force -L artix /dev/mapper/artix
   mount -t btrfs -o compress=lzo /dev/mapper/artix /mnt
   btrfs subvolume create /mnt/@
