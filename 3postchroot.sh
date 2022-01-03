@@ -214,7 +214,7 @@ function setup_next {
   sleep 2
 
   mv 4finalconfig.sh /home/$USER2
-  mv Mx437_Portfolio_6x8.ttf /home/$USER2
+  mv iPortfolio.ttf /home/$USER2
   rm /.bash*
   rm /*chroot*
   rm /crypto_keyfile.bin
