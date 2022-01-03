@@ -111,5 +111,3 @@ export LANGUAGE=en_US.UTF-8
 
 # change what terminals are labeled as
 echo -e -n "\e]2;thiccpad\e\\"
-
-[ -f ~/.fzf.bash ] && source ~/.fzf.bash
