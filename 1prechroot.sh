@@ -53,12 +53,12 @@ function encryption_setup {
   while [[ "$userans" != "1" && "$userans" != "2" ]]; do
     read userans
     if [ "$userans" == "1" ]; then
-      parted -s /dev/$DRIVE mkpart primary 2048s 50%
+      parted -s /dev/$DRIVE mkpart primary 8192s 50%
       cryptsetup --verbose --type luks1 --cipher serpent-xts-plain64 --key-size 512 --hash whirlpool --iter-time 10000 --use-random --verify-passphrase luksFormat /dev/$DRIVE\1
       cryptsetup open /dev/$DRIVE\1 artix
       # Does grub support luks2 yet?
     elif [ "$userans" == "2" ]; then
-      parted -s /dev/$DRIVE mkpart primary 2048s 100%
+      parted -s /dev/$DRIVE mkpart primary 8192s 100%
       cryptsetup --verbose --type luks1 --cipher serpent-xts-plain64 --key-size 512 --hash whirlpool --iter-time 10000 --use-random --verify-passphrase luksFormat /dev/$DRIVE\1
       cryptsetup open /dev/$DRIVE\1 artix
     fi
@@ -78,9 +78,9 @@ function regular_setup {
   while [[ "$userans" != "1" && "$userans" != "2" ]]; do
     read userans
     if [ "$userans" == "1" ]; then
-      parted -s $MPATH mkpart primary 2048s 50%
+      parted -s $MPATH mkpart primary 8192s 50%
     elif [ "$userans" == "2" ]; then
-      parted -s $MPATH mkpart primary 2048s 100%
+      parted -s $MPATH mkpart primary 8192s 100%
     fi
   done
 
