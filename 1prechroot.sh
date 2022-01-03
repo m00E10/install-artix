@@ -12,8 +12,10 @@ function repo_setup {
   echo "[community]" >> /etc/pacman.conf
   echo "Include = /etc/pacman.d/mirrorlist-arch" >> /etc/pacman.conf
   echo "[multilib]" >> /etc/pacman.conf
-	echo "Include = /etc/pacman.d/mirrorlist-arch" >> /etc/pacman.conf
-	pacman -Sy
+  echo "Include = /etc/pacman.d/mirrorlist-arch" >> /etc/pacman.conf
+  pacman -Sy
+
+  disk_setup
 }
 
 function disk_setup {
@@ -59,6 +61,8 @@ function encryption_setup {
       cryptsetup open /dev/$DRIVE\1 artix
     fi
   done
+
+  btrfs_setup
 }
 
 function regular_setup {
@@ -77,6 +81,8 @@ function regular_setup {
       parted -s $MPATH mkpart primary 2048s 100%
     fi
   done
+
+  btrfs_setup
 }
 
 function btrfs_setup {
@@ -111,6 +117,8 @@ function btrfs_setup {
   # UUID=$(blkid $MPATH | grep -o '\<UUID=[^[:blank:]]*' | cut -c 7- | rev | cut -c 2- | rev)
   # echo "UUID=$UUID /swap btrfs subvol=@swap 0 0" >> /etc/fstab
   # echo "/swap/swapfile none swap sw 0 0" >> /etc/fstab
+
+  basestrap_setup
 }
 
 function basestrap_setup {
@@ -148,6 +156,8 @@ function basestrap_setup {
 	basestrap /mnt $base_packages $cpu_package
 
 	fstabgen -U /mnt >> /mnt/etc/fstab
+
+	setup_next
 }
 
 function setup_next {
@@ -169,7 +179,3 @@ function setup_next {
 }
 
 repo_setup
-disk_setup
-btrfs_setup
-basestrap_setup
-setup_next
