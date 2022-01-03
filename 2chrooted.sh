@@ -2,8 +2,8 @@
 
 function copy_dot_files {
   mv dotfiles/.tmux.conf /etc/skel
-  mv dotfiles.vimrc /etc/skel
-  mv dotfiles.bashrc /etc/skel
+  mv dotfiles/.vimrc /etc/skel
+  mv dotfiles/.bashrc /etc/skel
 }
 
 function user_setup {
