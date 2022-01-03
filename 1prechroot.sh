@@ -38,6 +38,7 @@ function disk_setup {
 }
 
 function encryption_setup {
+  MPATH=/dev/mapper/artix
   # Set up LUKS encryption
   parted -s /dev/$DRIVE mklabel msdos
   echo -e "\033[0;31mBe aware: Any currently installed Operating Systems will DIE after this step\033[0m"
@@ -61,7 +62,8 @@ function encryption_setup {
 }
 
 function regular_setup {
-  parted -s /dev/$DRIVE mklabel msdos
+  MPATH=/dev/$DRIVE
+  parted -s $MPATH mklabel msdos
   echo -e "\033[0;31mBe aware: Any currently installed Operating Systems will DIE after this step\033[0m"
   echo -e "\033[0;33mWill you be dual booting?\033[0m"
   echo -e "\033[0;33m1. Yes (Uses first 50% of drive)\033[0m"
@@ -70,17 +72,17 @@ function regular_setup {
   while [[ "$userans" != "1" && "$userans" != "2" ]]; do
     read userans
     if [ "$userans" == "1" ]; then
-      parted -s /dev/$DRIVE mkpart primary 2048s 50%
+      parted -s $MPATH mkpart primary 2048s 50%
     elif [ "$userans" == "2" ]; then
-      parted -s /dev/$DRIVE mkpart primary 2048s 100%
+      parted -s $MPATH mkpart primary 2048s 100%
     fi
   done
 }
 
 function btrfs_setup {
   # Create filesystems and subvolumes
-  mkfs -t btrfs --force -L artix /dev/mapper/artix
-  mount -t btrfs -o compress=lzo /dev/mapper/artix /mnt
+  mkfs -t btrfs --force -L artix $MPATH
+  mount -t btrfs -o compress=lzo $MPATH /mnt
   btrfs subvolume create /mnt/@
   btrfs subvolume create /mnt/@home
   btrfs subvolume create /mnt/@snapshots
@@ -92,10 +94,10 @@ function btrfs_setup {
   o=defaults,x-mount.mkdir,compress=lzo,ssd,noatime
 
   # Remount partitions
-  mount -o compress=lzo,subvol=@,$o /dev/mapper/artix /mnt
-  mount -o compress=lzo,subvol=@home,$o /dev/mapper/artix /mnt/home
-  mount -o compress=lzo,subvol=@snapshots,$o /dev/mapper/artix /mnt/.snapshots
-  mount -o subvol=@swap /dev/$DRIVE\1 /swap
+  mount -o compress=lzo,subvol=@,$o $MPATH /mnt
+  mount -o compress=lzo,subvol=@home,$o $MPATH /mnt/home
+  mount -o compress=lzo,subvol=@snapshots,$o $MPATH /mnt/.snapshots
+  mount -o subvol=@swap $MPATH /swap
   # mount -o subvol=@swap /dev/mapper/artix /swap
   
   # Make swap file
@@ -106,10 +108,9 @@ function btrfs_setup {
   dd if=/dev/zero of=/swap/swapfile bs=1M count=8192 status=progress
   mkswap /swap/swapfile
   swapon /swap/swapfile
-  UUID=$(blkid /dev/$DRIVE\1 | grep -o '\<UUID[^[:blank:]]*' | cut -c 7- | rev | cut -c 2- | rev)
-  # UUID=$(blkid /dev/mapper/artix | grep -o '\<UUID[^[:blank:]]*' | cut -c 7- | rev | cut -c 2- | rev)
-  echo "UUID=$UUID /swap btrfs subvol=@swap 0 0" >> /etc/fstab
-  echo "/swap/swapfile none swap sw 0 0" >> /etc/fstab
+  # UUID=$(blkid $MPATH | grep -o '\<UUID=[^[:blank:]]*' | cut -c 7- | rev | cut -c 2- | rev)
+  # echo "UUID=$UUID /swap btrfs subvol=@swap 0 0" >> /etc/fstab
+  # echo "/swap/swapfile none swap sw 0 0" >> /etc/fstab
 }
 
 function basestrap_setup {
