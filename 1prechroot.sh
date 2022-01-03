@@ -32,11 +32,11 @@ function disk_setup {
   while [ "$luks_answer" != "1" ]; do
     read luks_answer
   	if [ "$luks_answer" == "1" ]; then
-  		encryption_setup
 		echo "ENCRYPTED=1" >> vars
+  		encryption_setup
   	elif [ "$luks_answer" == "2" ]; then
-		regular_setup
 		echo "ENCRYPTED=0" >> vars
+		regular_setup
     fi
   done
 }
