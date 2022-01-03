@@ -84,8 +84,10 @@ function btrfs_setup {
   btrfs subvolume create /mnt/@
   btrfs subvolume create /mnt/@home
   btrfs subvolume create /mnt/@snapshots
+  btrfs subvolume create /mnt/@swap
   
   umount /mnt
+  mkdir /swap
   # Set mount options
   o=defaults,x-mount.mkdir,compress=lzo,ssd,noatime
 
@@ -93,6 +95,20 @@ function btrfs_setup {
   mount -o compress=lzo,subvol=@,$o /dev/mapper/artix /mnt
   mount -o compress=lzo,subvol=@home,$o /dev/mapper/artix /mnt/home
   mount -o compress=lzo,subvol=@snapshots,$o /dev/mapper/artix /mnt/.snapshots
+  mount -o subvol=@swap /dev/$DRIVE\1 /swap
+  # mount -o subvol=@swap /dev/mapper/artix /swap
+  
+  # Make swap file
+  touch /swap/swapfile
+  chmod 600 /swap/swapfile
+  chattr +C /swap/swapfile
+  dd if=/dev/zero of=/swap/swapfile bs=1M count=8192
+  mkswap /swap/swapfile
+  swapon /swap/swapfile
+  UUID=$(blkid /dev/$DRIVE\1 | grep -o '\<UUID[^[:blank:]]*' | cut -c 7- | rev | cut -c 2- | rev)
+  # UUID=$(blkid /dev/mapper/artix | grep -o '\<UUID[^[:blank:]]*' | cut -c 7- | rev | cut -c 2- | rev)
+  echo "UUID=$UUID /swap btrfs subvol=@swap 0 0" >> /etc/fstab
+  echo "/swap/swapfile none swap sw 0 0" >> /etc/fstab
 }
 
 function basestrap_setup {
