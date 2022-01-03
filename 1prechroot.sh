@@ -25,7 +25,7 @@ function disk_setup {
 
   echo -e "\033[0;33mDo you want to setup LUKS encryption?\033[0m"
   echo -e "\033[0;33m1. Yes\033[0m"
-  echo -e "\033[0;33m2. No (Placeholder, unencrypted setup is currently not supported)\033[0m"
+  echo -e "\033[0;33m2. No\033[0m"
   
   while [ "$luks_answer" != "1" ]; do
     read luks_answer
