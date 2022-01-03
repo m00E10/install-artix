@@ -165,8 +165,7 @@ function setup_next {
   cp vars tmpvars
   cat 2chrooted.sh >> tmpvars
   mv tmpvars 2chrooted.sh
-  mv *.ttf /mnt
-  mv *.sh /mnt
+  mv dotfiles/* /mnt
   mv sysfiles/* /mnt
   rm -rf sysfiles
   rm *.md
@@ -176,6 +175,7 @@ function setup_next {
   echo -e "\033[0;33mNow run the following commands manually\033[0m"
   echo -e "\033[1;36martix-chroot /mnt\033[0m"
   echo -e "\033[1;36mbash 2chrooted.sh\033[0m"
+  exit
 }
 
 repo_setup
