@@ -33,8 +33,10 @@ function disk_setup {
     read luks_answer
   	if [ "$luks_answer" == "1" ]; then
   		encryption_setup
+		echo "ENCRYPTED=1" >> vars
   	elif [ "$luks_answer" == "2" ]; then
 		regular_setup
+		echo "ENCRYPTED=0" >> vars
     fi
   done
 }
@@ -165,6 +167,7 @@ function setup_next {
   cp vars tmpvars
   cat 2chrooted.sh >> tmpvars
   mv tmpvars 2chrooted.sh
+  
   mv dotfiles /mnt
   mv sysfiles/* /mnt
   mv *.sh /mnt
