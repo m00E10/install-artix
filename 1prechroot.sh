@@ -102,7 +102,8 @@ function btrfs_setup {
   touch /swap/swapfile
   chmod 600 /swap/swapfile
   chattr +C /swap/swapfile
-  dd if=/dev/zero of=/swap/swapfile bs=1M count=8192
+  echo "Making 8GB swap file"
+  dd if=/dev/zero of=/swap/swapfile bs=1M count=8192 status=progress
   mkswap /swap/swapfile
   swapon /swap/swapfile
   UUID=$(blkid /dev/$DRIVE\1 | grep -o '\<UUID[^[:blank:]]*' | cut -c 7- | rev | cut -c 2- | rev)
