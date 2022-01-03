@@ -80,7 +80,7 @@ function make_grub {
 	rm grub-*
 
 	#Install grub and create configurations
-	grub-install --target=i386-pc /dev/$DRIVE # MBR only baby
+	grub-install --target=i386-pc /dev/$DRIVE
 	grub-mkconfig -o /boot/grub/grub.cfg
 }
 
@@ -99,10 +99,25 @@ function setup_next {
 	echo -e "\033[0;33mAfter the reboot, login as root and then run bash 3postchroot.sh\033[0m"
 }
 
+function plain_make {
+	rm /etc/mkinitcpio.conf
+	mv plain_mkinitcpio.conf /etc/mkinitcpio.conf
+	mkinitcpio -p linux-hardened
+	
+	mv plain_grub /etc/default/grub
+	# Install grub and create configurations
+	grub-install --target=i386-pc /dev/$DRIVE
+	grub-mkconfig -o /boot/grub/grub.cfg
+}
+
 copy_dot_files
 user_setup
 timezone_setup
 host_locale_setup
-make_init
-make_grub
+if [ "$ENCRYPTED" == "1" ]; then
+  make_init
+  make_grub
+elif [ "$ENCRYPTED" == "0" ]; then
+  plain_make
+fi
 setup_next
