@@ -165,8 +165,9 @@ function setup_next {
   cp vars tmpvars
   cat 2chrooted.sh >> tmpvars
   mv tmpvars 2chrooted.sh
-  mv dotfiles/* /mnt
+  mv dotfiles /mnt
   mv sysfiles/* /mnt
+  mv *.sh /mnt
   rm -rf sysfiles
   rm *.md
   rm -rf .git
