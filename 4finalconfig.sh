@@ -1,7 +1,7 @@
 # Get and install preferred font
 mkdir -p ~/.local/share/fonts
 cd ~/.local/share/fonts
-wget https://github.com/cm320/install-artix/raw/main/Mx437_Portfolio_6x8.ttf
+wget https://github.com/m00E10/misc/raw/main/iPortfolio.ttf
 fc-cache -f -v
 
 mkdir -p ~/.config/gtk-3.0
