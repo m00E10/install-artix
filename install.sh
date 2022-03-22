@@ -2,23 +2,8 @@ DRIVE=sda
 HOSTE=artix
 ADMIN=admin
 USER1=user
-DRIV1=$DRIVE\1
-DRIV2=$DRIVE\2
-DRIV3=$DRIVE\3
 
-echo "label: dos"           >> disk.layout
-echo "label-id: 0xaeead558" >> disk.layout
-echo "device: /dev/$DRIVE"  >> disk.layout
-echo "unit: sectors"        >> disk.layout
-echo "sector-size: 512"     >> disk.layout
-echo ""                     >> disk.layout
-echo "/dev/$DRIV1 : start=        2048, size=     2097152, type=83, bootable"  >> disk.layout
-echo "/dev/$DRIV2 : start=     2099200, size=    33554432, type=83"            >> disk.layout
-echo "/dev/$DRIV3 : start=    35653632, type=83"                               >> disk.layout
-
-sfdisk -d /dev/$DRIVE < disk.layout
-
-
+echo "o\nn\np\n1\n2048\n2097152\nn\np\n2\n2099200\n33554432\nn\np\n3\n\n\nt\n2\n82\na\n1\nw\n" | fdisk /dev/$DRIVE
 mkfs.ext4 -L BOOT /dev/$DRIVE\1
 mkswap    -L SWAP /dev/$DRIVE\2
 mkfs.ext4 -L ROOT /dev/$DRIVE\3
