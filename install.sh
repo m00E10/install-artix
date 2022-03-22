@@ -3,30 +3,28 @@ HOSTE=artix
 ADMIN=admin
 USER1=user
 
-sed -e 's/\s*\([\+0-9a-zA-Z]*\).*/\1/' << EOF | fdisk ${TGTDEV}
-  o # clear the in memory partition table
-  n # new partition
-  p # primary partition
-  1 # partition number 1
-    # default - start at beginning of disk 
-  +100M # 100 MB boot parttion
-  n # new partition
-  p # primary partition
-  2 # partion number 2
-  +16G # 16GB of SWAP
-  n # new partition
-  p # primary partition
-    # start at first available sector
-    # end at last available sector
-  a # make a partition bootable
-  1 # bootable partition is partition 1 -- /dev/sda1
-  t # change a partition type
-  2 # change our second partition
-  82 # change it to swap type
-  p # print the in-memory partition table
-  w # write the partition table
-  q # and we're done
-EOF
+(
+echo o # Create a new empty DOS partition table
+echo n # Add a boot partition of 100MB
+echo p
+echo 1
+echo +100M
+echo n # Add a swap partition of 16GB
+echo p
+echo 2
+echo +16G
+echo n # Add a root partition of 100% remaining space
+echo p
+echo  
+echo  
+echo a # Set first partition as bootable
+echo 1
+echo t # Set second partition as type 82 (swap)
+echo 2
+echo 82
+echo p # Print layout
+echo w # Write changes
+) | sudo fdisk
 
 mkfs.ext4 -L BOOT /dev/$DRIVE\1
 mkswap    -L SWAP /dev/$DRIVE\2
