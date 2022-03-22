@@ -4,26 +4,29 @@ ADMIN=admin
 USER1=user
 
 (
-echo o # Create a new empty DOS partition table
-echo n # Add a boot partition of 100MB
+echo o
+echo n
 echo p
 echo 1
+echo  
 echo +100M
-echo n # Add a swap partition of 16GB
+echo n
 echo p
 echo 2
+echo  
 echo +16G
-echo n # Add a root partition of 100% remaining space
+echo n
 echo p
+echo 3
 echo  
 echo  
-echo a # Set first partition as bootable
+echo a
 echo 1
-echo t # Set second partition as type 82 (swap)
+echo t
 echo 2
 echo 82
-echo p # Print layout
-echo w # Write changes
+echo p
+echo w
 ) | sudo fdisk
 
 mkfs.ext4 -L BOOT /dev/$DRIVE\1
