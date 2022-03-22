@@ -100,50 +100,55 @@ function base_strap {
 
 
 	echo "Now run the following:"
-	echo "exit"
-	echo "umount -R /mnt"
-	echo "reboot"
+	echo " exit"
+	echo " umount -R /mnt"
+	echo " reboot"
+	echo "Then run configure.sh"
+
+
+	echo "
+  pacman -Syu git base-devel man-pages man-db tmux htop sway xorg-xwayland    \
+              i3status-rust wireguard-tools wl-clipboard tree cronie torsocks \
+              firefox unzip wget weechat wireguard-openrc cronie-openrc       \
+              noto-fonts noto-fonts-emoji noto-fonts-extra wget
+  pacman -Rns sudo
+ 
+  ln -s /usr/bin/doas /usr/bin/sudo
+
+  rc-update add wireguard default
+  rc-update add cronie    default
+  wg showconf wg0 > /etc/wireguard/wg0.conf
+
+  cd /bin
+  wget https://gitlab.com/madaidan/secure-time-sync/-/raw/master/secure-time-sync.sh
+  chmod +x secure-time-sync.sh
+  crontab -l > cron_bkp
+  echo "0 * * * * /bin/secure-time-sync.sh" >> cron_bkp
+  crontab cron_bkp
+  rm cron_bkp
+  
+  mkdir -p /home/$USER1/.local/share/fonts
+  cd       /home/$USER1/.local/share/fonts
+  wget https://github.com/m00E10/install-artix/raw/main/iPortfolio.ttf
+  fc-cache -f -v
+
+  mkdir -p /home/$USER1/.config/gtk-3.0
+  echo "[Settings]"                               >  /home/$USER1/.config/gtk-3.0/settings.ini
+  echo "gtk-icon-theme-name = Adwaita"            >> /home/$USER1/gtk-3.0/settings.ini
+  echo "gtk-theme-name = Adwaita"                 >> /home/$USER1/gtk-3.0/settings.ini
+  echo "gtk-font-name = DejaVu Sans 11"           >> /home/$USER1/.config/gtk-3.0/settings.ini
+  echo "gtk-application-prefer-dark-theme = true" >> /home/$USER1/.config/gtk-3.0/settings.ini
+
+  cd /home/$USER1; git clone https://github.com/m00E10/dotfiles; cd dotfiles
+  mv .* ../; cd ..; rm -rf dotfiles
+  chown -hR $USER1 /home/$USER1
+	" > /root/configure.sh
 	' >> /mnt/install.sh
 
 	echo "Run bash install.sh"
 	artix-chroot /mnt
 }
 
-#	pacman -Syu git base-devel man-pages man-db tmux htop sway xorg-xwayland    \
-#	            i3status-rust wireguard-tools wl-clipboard tree cronie torsocks \
-#	            firefox unzip wget weechat wireguard-openrc cronie-openrc       \
-#	            noto-fonts noto-fonts-emoji noto-fonts-extra wget
-#	pacman -Rns sudo
-#
-#	ln -s /usr/bin/doas /usr/bin/sudo
-
-#	rc-update add wireguard default
-#	rc-update add cronie    default
-#	wg showconf wg0 > /etc/wireguard/wg0.conf
-
-#	cd /bin
-#	wget https://gitlab.com/madaidan/secure-time-sync/-/raw/master/secure-time-sync.sh
-#	chmod +x secure-time-sync.sh
-#	crontab -l > cron_bkp
-#	echo "0 * * * * /bin/secure-time-sync.sh" >> cron_bkp
-#	crontab cron_bkp
-#	rm cron_bkp
-	
-#	mkdir -p /home/$USER1/.local/share/fonts
-#	cd       /home/$USER1/.local/share/fonts
-#	wget https://github.com/m00E10/install-artix/raw/main/iPortfolio.ttf
-#	fc-cache -f -v
-
-#	mkdir -p /home/$USER1/.config/gtk-3.0
-#	echo "[Settings]"                               >  /home/$USER1/.config/gtk-3.0/settings.ini
-#	echo "gtk-icon-theme-name = Adwaita"            >> /home/$USER1/gtk-3.0/settings.ini
-#	echo "gtk-theme-name = Adwaita"                 >> /home/$USER1/gtk-3.0/settings.ini
-#	echo "gtk-font-name = DejaVu Sans 11"           >> /home/$USER1/.config/gtk-3.0/settings.ini
-#	echo "gtk-application-prefer-dark-theme = true" >> /home/$USER1/.config/gtk-3.0/settings.ini
-
-#	cd /home/$USER1; git clone https://github.com/m00E10/dotfiles; cd dotfiles
-#	mv .* ../; cd ..; rm -rf dotfiles
-#	chown -hR $USER1 /home/$USER1
 
 repo_setup
 disk_setup
