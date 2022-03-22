@@ -103,7 +103,7 @@ function base_strap {
 	echo " exit"
 	echo " umount -R /mnt"
 	echo " reboot"
-	echo "Then run configure.sh"
+	echo "Then login as root and run bash configure.sh"
 
 
 	echo "
@@ -123,7 +123,7 @@ function base_strap {
   wget https://gitlab.com/madaidan/secure-time-sync/-/raw/master/secure-time-sync.sh
   chmod +x secure-time-sync.sh
   crontab -l > cron_bkp
-  echo "0 * * * * /bin/secure-time-sync.sh" >> cron_bkp
+  echo \"0 * * * * /bin/secure-time-sync.sh\" >> cron_bkp
   crontab cron_bkp
   rm cron_bkp
   
@@ -133,11 +133,11 @@ function base_strap {
   fc-cache -f -v
 
   mkdir -p /home/$USER1/.config/gtk-3.0
-  echo "[Settings]"                               >  /home/$USER1/.config/gtk-3.0/settings.ini
-  echo "gtk-icon-theme-name = Adwaita"            >> /home/$USER1/gtk-3.0/settings.ini
-  echo "gtk-theme-name = Adwaita"                 >> /home/$USER1/gtk-3.0/settings.ini
-  echo "gtk-font-name = DejaVu Sans 11"           >> /home/$USER1/.config/gtk-3.0/settings.ini
-  echo "gtk-application-prefer-dark-theme = true" >> /home/$USER1/.config/gtk-3.0/settings.ini
+  echo \"[Settings]\"                               >  /home/$USER1/.config/gtk-3.0/settings.ini
+  echo \"gtk-icon-theme-name = Adwaita\"            >> /home/$USER1/gtk-3.0/settings.ini
+  echo \"gtk-theme-name = Adwaita\"                 >> /home/$USER1/gtk-3.0/settings.ini
+  echo \"gtk-font-name = DejaVu Sans 11\"           >> /home/$USER1/.config/gtk-3.0/settings.ini
+  echo \"gtk-application-prefer-dark-theme = true\" >> /home/$USER1/.config/gtk-3.0/settings.ini
 
   cd /home/$USER1; git clone https://github.com/m00E10/dotfiles; cd dotfiles
   mv .* ../; cd ..; rm -rf dotfiles
