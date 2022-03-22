@@ -4,30 +4,30 @@ ADMIN=admin
 USER1=user
 
 (
-echo o
-echo n
+echo o # Create new DOS partition layout
+echo n # Create 100MB BOOT partition
 echo p
 echo 1
 echo  
 echo +100M
-echo n
+echo n # Create 16GB SWAP partition
 echo p
 echo 2
 echo  
 echo +16G
-echo n
+echo n # Create ROOT partition out of remaining space
 echo p
 echo 3
 echo  
 echo  
-echo a
+echo a # Set first partition as bootable
 echo 1
-echo t
+echo t # Set second partition as type 82 (swap)
 echo 2
 echo 82
 echo p
 echo w
-) | sudo fdisk
+) | fdisk /dev/$DRIVE
 
 mkfs.ext4 -L BOOT /dev/$DRIVE\1
 mkswap    -L SWAP /dev/$DRIVE\2
@@ -41,12 +41,14 @@ mount  /dev/$DRIVE\3  /mnt
 
 basestrap /mnt base base-devel openrc elogind-openrc linux-hardened \
                linux-hardened-headers linux-firmware
-fstabgen -L /mnt           >>  /mnt/etc/fstab
-# LABEL=BOOT /boot ext4  default,noatime  0 2               
-nano /mnt/etc/fstab
+fstabgen -L /mnt                                             >> /mnt/etc/fstab
+echo "LABEL=BOOT    /boot    ext4    default,noatime    0 2" >> /mnt/etc/fstab
 
-
-artix-chroot /mnt
+echo "DRIVE=$DRIVE" >> /mnt/install.sh
+echo "HOSTE=$HOSTE" >> /mnt/install.sh
+echo "ADMIN=$ADMIN" >> /mnt/install.sh
+echo "USER1=$USER1" >> /mnt/install.sh
+echo '
 ln -sf /usr/share/zoneinfo/UTC /etc/localtime
 echo "en_US.UTF-8 UTF-8"   >>  /etc/locale.gen
 locale-gen
@@ -126,5 +128,10 @@ mv .* ../; cd ..; rm -rf dotfiles
 chown -hR $USER1 /home/$USER1
 
 exit
+' >> /mnt/install.sh
+
+echo "Run bash install.sh"
+artix-chroot /mnt
+
 umount -R /mnt
 reboot
