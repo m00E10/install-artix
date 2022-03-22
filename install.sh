@@ -3,20 +3,6 @@ HOSTE=artix
 ADMIN=admin
 USER1=user
 
-function repo_setup {
-	pacman -Sy
-	pacman -S parted artix-archlinux-support
-	pacman-key --populate archlinux
-	echo "[omniverse]" >> /etc/pacman.conf
-	echo "Server = http://omniverse.artixlinux.org/\$arch" >> /etc/pacman.conf
-	echo "[extra]"     >> /etc/pacman.conf
-	echo "Include = /etc/pacman.d/mirrorlist-arch"         >> /etc/pacman.conf
-	echo "[community]" >> /etc/pacman.conf
-	echo "Include = /etc/pacman.d/mirrorlist-arch"         >> /etc/pacman.conf
-	echo "[multilib]"  >> /etc/pacman.conf
-	echo "Include = /etc/pacman.d/mirrorlist-arch"         >> /etc/pacman.conf
-}
-
 function disk_setup {
 (
 echo o # Create new DOS partition layout
@@ -110,8 +96,6 @@ function base_strap {
 	pacman -Sy
 	pacman -S parted artix-archlinux-support
 	pacman-key --populate archlinux
-	echo \"[omniverse]\" >> /etc/pacman.conf
-	echo \"Server = http://omniverse.artixlinux.org/\\$arch\" >> /etc/pacman.conf
 	echo \"[extra]\"     >> /etc/pacman.conf
 	echo \"Include = /etc/pacman.d/mirrorlist-arch\"         >> /etc/pacman.conf
 	echo \"[community]\" >> /etc/pacman.conf
@@ -122,9 +106,6 @@ function base_strap {
               i3status-rust wireguard-tools wl-clipboard tree cronie torsocks \\
               firefox unzip wget weechat wireguard-openrc cronie-openrc       \\
               noto-fonts noto-fonts-emoji noto-fonts-extra wget
-  pacman -Rns sudo
- 
-  ln -s /usr/bin/doas /usr/bin/sudo
 
   rc-update add wireguard default
   rc-update add cronie    default
@@ -153,6 +134,9 @@ function base_strap {
   cd /home/$USER1; git clone https://github.com/m00E10/dotfiles; cd dotfiles
   mv .* ../; cd ..; rm -rf dotfiles
   chown -hR $USER1 /home/$USER1
+  
+	pacman -Rns sudo
+  ln -s /usr/bin/doas /usr/bin/sudo
 	" > /root/configure.sh
 	' >> /mnt/install.sh
 
@@ -160,7 +144,5 @@ function base_strap {
 	artix-chroot /mnt
 }
 
-
-repo_setup
 disk_setup
 base_strap
