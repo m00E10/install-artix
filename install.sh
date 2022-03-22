@@ -107,9 +107,20 @@ function base_strap {
 
 
 	echo "
-  pacman -Syu git base-devel man-pages man-db tmux htop sway xorg-xwayland    \
-              i3status-rust wireguard-tools wl-clipboard tree cronie torsocks \
-              firefox unzip wget weechat wireguard-openrc cronie-openrc       \
+	pacman -Sy
+	pacman -S parted artix-archlinux-support
+	pacman-key --populate archlinux
+	echo \"[omniverse]\" >> /etc/pacman.conf
+	echo \"Server = http://omniverse.artixlinux.org/\\$arch\" >> /etc/pacman.conf
+	echo \"[extra]\"     >> /etc/pacman.conf
+	echo \"Include = /etc/pacman.d/mirrorlist-arch\"         >> /etc/pacman.conf
+	echo \"[community]\" >> /etc/pacman.conf
+	echo \"Include = /etc/pacman.d/mirrorlist-arch\"         >> /etc/pacman.conf
+	echo \"[multilib]\"  >> /etc/pacman.conf
+	echo \"Include = /etc/pacman.d/mirrorlist-arch\"         >> /etc/pacman.conf
+  pacman -Syu git base-devel man-pages man-db tmux htop sway xorg-xwayland    \\
+              i3status-rust wireguard-tools wl-clipboard tree cronie torsocks \\
+              firefox unzip wget weechat wireguard-openrc cronie-openrc       \\
               noto-fonts noto-fonts-emoji noto-fonts-extra wget
   pacman -Rns sudo
  
