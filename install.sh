@@ -52,7 +52,7 @@ echo '
 ln -sf /usr/share/zoneinfo/UTC /etc/localtime
 echo "en_US.UTF-8 UTF-8"   >>  /etc/locale.gen
 locale-gen
-echo "LANG=en_US.utf8"     >>  /etc/locale.conf
+echo "LANG=en_US.utf8"     >   /etc/locale.conf
 echo "LANGUAGE=en_US"      >>  /etc/locale.conf
 echo "LC_ALL=C"            >>  /etc/locale.conf
 
@@ -62,22 +62,20 @@ pacman -S grub os-prober doas dhclient wpa_supplicant networkmanager \
 grub-install --recheck --target=i386-pc /dev/$DRIVE
 grub-mkconfig -o /boot/grub/grub.cfg
 
-echo $HOSTE                             > /etc/hostname
-echo "hostname=$HOSTE"                  > /etc/conf.d/hostname
-echo "127.0.0.1 localhost"              > /etc/hosts
-echo "::1       localhost"              > /etc/hosts
-echo "127.0.0.1 $HOSTE.localnet $HOSTE" > /etc/hosts
+echo $HOSTE                             >  /etc/hostname
+echo "hostname=$HOSTE"                  >  /etc/conf.d/hostname
+echo "127.0.0.1 localhost"              >> /etc/hosts
+echo "::1       localhost"              >> /etc/hosts
+echo "127.0.0.1 $HOSTE.localnet $HOSTE" >> /etc/hosts
 
 
 pacman -Syu git base-devel man-pages man-db tmux htop sway xworg-xwayland   \
             i3status-rust wireguard-tools wl-clipboard tree cronie torsocks \
             firefox unzip wget weechat wireguard-openrc cronie-openrc       \
-            noto-fonts noto-fonts-emoji noto-fonts-extra --noconfirm
-pacman -Rns sudo vi nano --noconfirm
+            noto-fonts noto-fonts-emoji noto-fonts-extra wget
+pacman -Rns sudo
 
 ln -s /usr/bin/doas /usr/bin/sudo
-ln -s /usr/bin/vim  /usr/bin/vi
-ln -s /usr/bin/vim  /usr/bin/nano
 
 rc-update add wireguard default
 rc-update add cronie    default
@@ -105,7 +103,7 @@ passwd $ADMIN
 echo "Set password for standard user"
 passwd $USER1
 
-echo "permit persist $ADMIN"                               >> /etc/doas.conf
+echo "permit persist $ADMIN"                               >  /etc/doas.conf
 echo "permit nopass  $USER1 cmd poweroff args"             >> /etc/doas.conf
 echo "permit nopass  $USER1 cmd wg-quick args up bridge"   >> /etc/doas.conf
 echo "permit nopass  $USER1 cmd wg-quick args down bridge" >> /etc/doas.conf
@@ -117,7 +115,7 @@ wget https://github.com/m00E10/install-artix/raw/main/iPortfolio.ttf
 fc-cache -f -v
 
 mkdir -p /home/$USER1/.config/gtk-3.0
-echo "[Settings]"                               >> /home/$USER1/.config/gtk-3.0/settings.ini
+echo "[Settings]"                               >  /home/$USER1/.config/gtk-3.0/settings.ini
 echo "gtk-icon-theme-name = Adwaita"            >> /home/$USER1/gtk-3.0/settings.ini
 echo "gtk-theme-name = Adwaita"                 >> /home/$USER1/gtk-3.0/settings.ini
 echo "gtk-font-name = DejaVu Sans 11"           >> /home/$USER1/.config/gtk-3.0/settings.ini
