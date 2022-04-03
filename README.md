@@ -1,5 +1,4 @@
 # install-artix
-# install-artix
 This installs artix from a base artix ISO in non-UEFI mode with BTRFS, full
 LUKS encryption, hardened kernel, sway, and pipewire.
 
