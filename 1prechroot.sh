@@ -1,3 +1,5 @@
+#!/bin/bash
+
 DRIVE=sda
 HOSTE=artix
 ADMIN=admin
