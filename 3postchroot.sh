@@ -57,7 +57,7 @@ function theming {
 
 function next_stage {
 	wget https://raw.githubusercontent.com/m00E10/install-artix/main/4finalconfig.sh
-	mv 3postchroot.sh /home/$ADMIN
+	mv 4finalconfig.sh /home/$ADMIN
 	echo "Now login as your admin user and run bash 4finalconfig.sh"
 }
 
