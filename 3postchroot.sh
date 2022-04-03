@@ -20,7 +20,7 @@ function repo_setup {
   	pacman -Syu git base-devel man-pages man-db tmux htop sway xorg-xwayland \
               i3status-rust wireguard-tools wl-clipboard tree cronie torsocks 	 \
               firefox unzip wget weechat wireguard-openrc cronie-openrc          \
-              noto-fonts noto-fonts-emoji noto-fonts-extra wget
+              noto-fonts noto-fonts-emoji noto-fonts-extra wget alsa-utils
 	      
 	pacman -Rns sudo
   	ln -s /usr/bin/doas /usr/bin/sudo
